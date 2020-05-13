@@ -1,7 +1,7 @@
 //
-//  A palm shaped lamp showing the current time in COlour coded Roman Numerals.
+//  A colorful clock based on an 8x8 addressable LEDs panel.
 //
-//  Copyright (C) 2019 Nicola Cimmino
+//  Copyright (C) 2020 Nicola Cimmino
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
