@@ -1,8 +1,8 @@
 //
-//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show 
+//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show
 //  color coded roman numerals.
 //
-//  Copyright (C) 2019 Nicola Cimmino
+//  Copyright (C) 2020 Nicola Cimmino
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #define __ROMAN_DISPLAY_H__
 
 #include <FastLED.h>
+#include "RTC.h"
 
 #define NUM_LEDS 64
 #define PIN_LED_DATA 5
@@ -34,17 +35,18 @@
 class RomanDisplay
 {
 public:
-    RomanDisplay();
+    RomanDisplay(RTC *rtc);
     void setBrightness(byte brightness);
-    void printNumber(byte number, byte startIndex, byte sectionLength);
-    void printPositional(byte number, byte startIndex);
-
-    void clearDisplay();
-    void show();
+    void loop();
 
 private:
     CRGB leds[NUM_LEDS];
+    RTC *rtc;
     void convertToRoman(byte number, char *result);
+    void printNumber(byte number, byte startIndex, byte sectionLength);
+    void printPositional(byte number, byte startIndex);
+    void clearDisplay();
+    void show();
 };
 
 #endif

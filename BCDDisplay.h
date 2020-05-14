@@ -1,5 +1,6 @@
 //
-//  A colorful clock based on an 8x8 addressable LEDs panel.
+//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show
+//  color coded roman numerals.
 //
 //  Copyright (C) 2020 Nicola Cimmino
 //
@@ -17,24 +18,33 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "RomanDisplay.h"
-#include "BCDDisplay.h"
+#ifndef ___BCD_DISPLAY_H__
+#define ___BCD_DISPLAY_H__
+
+#include <FastLED.h>
 #include "RTC.h"
 
-BCDDisplay *display;
-RTC rtc;
+#define NUM_LEDS 64
+#define PIN_LED_DATA 5
+#define ROMAN_DISPLAY_BLANK CRGB(0, 0, 0)
+#define ROMAN_DISPLAY_I CRGB::Blue;
+#define ROMAN_DISPLAY_V CRGB::Green;
+#define ROMAN_DISPLAY_X CRGB::Red;
+#define ROMAN_DISPLAY_L CRGB::Yellow;
 
-void setup()
+class BCDDisplay
 {
-    rtc.initialize();
+public:
+    BCDDisplay(RTC *rtc);
+    void setBrightness(byte brightness);
+    void loop();
 
-    //display = new RomanDisplay(&rtc);
-    display = new BCDDisplay(&rtc);
-}
+private:
+    CRGB leds[NUM_LEDS];
+    RTC *rtc;
+    void printNumber(byte number, byte position);
+    void show();
+    void clearDisplay();
+};
 
-void loop()
-{
-    display->loop();
-
-    delay(1000);
-}
+#endif

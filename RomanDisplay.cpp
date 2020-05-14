@@ -1,5 +1,5 @@
 //
-//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show 
+//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show
 //  color coded roman numerals.
 //
 //  Copyright (C) 2020 Nicola Cimmino
@@ -20,19 +20,35 @@
 
 #include "RomanDisplay.h"
 
-RomanDisplay::RomanDisplay()
+RomanDisplay::RomanDisplay(RTC *rtc)
 {
+    this->rtc = rtc;
     FastLED.addLeds<WS2812B, PIN_LED_DATA, GRB>(this->leds, NUM_LEDS);
     FastLED.setBrightness(10);
 }
 
 void RomanDisplay::setBrightness(byte brightness)
-{    
+{
     FastLED.setBrightness(brightness);
 }
 
+void RomanDisplay::loop()
+{
+    this->clearDisplay();
+    this->printNumber(this->rtc->getHours(), 0, 8);
+    this->printNumber(this->rtc->getMinutes(), 8 * 1, 8);
+    this->printNumber(this->rtc->getSeconds(), 8 * 2, 8);
+    this->printNumber(this->rtc->getDay(), 8 * 3, 8);
+    this->printNumber(this->rtc->getMonth(), 8 * 4, 8);
+    this->printNumber(this->rtc->getYear(), 8 * 5, 8);
+    this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 6);
+    this->printNumber(this->rtc->getTemperature(), 8 * 7, 8);
+
+    this->show();
+}
+
 void RomanDisplay::convertToRoman(byte number, char *result)
-{        
+{
     struct
     {
         unsigned int value;
@@ -66,7 +82,7 @@ void RomanDisplay::clearDisplay()
     for (int ix = 0; ix < NUM_LEDS; ix++)
     {
         this->leds[ix] = ROMAN_DISPLAY_BLANK;
-    }    
+    }
 }
 
 void RomanDisplay::show()
@@ -104,15 +120,15 @@ void RomanDisplay::printNumber(byte number, byte startIndex, byte sectionLength)
 
             // Due to mechanical limiations in the proto it was more handy to
             // have leds indexed counterclockwise, however, it's far more logical
-            // to read the clock clocwise. We fix it here because software is 
+            // to read the clock clocwise. We fix it here because software is
             // cheaper than disassembling and rewiring.
-            this->leds[startIndex] = colour;            
-            startIndex+=1;            
+            this->leds[startIndex] = colour;
+            startIndex += 1;
         }
-    }    
+    }
 }
 
 void RomanDisplay::printPositional(byte number, byte startIndex)
 {
-    this->leds[startIndex+number] = CRGB::Violet;            
+    this->leds[startIndex + number] = CRGB::Violet;
 }
