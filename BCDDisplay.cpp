@@ -38,7 +38,7 @@ void BCDDisplay::loop()
     this->printNumber(this->rtc->getHours(), 0);
     this->printNumber(this->rtc->getMinutes(), 1);
     this->printNumber(this->rtc->getSeconds(), 2);
-    // this->printNumber(this->rtc->getDay(), 8 * 3, 8);
+    //this->printNumber(this->rtc->getDay(), 3);
     // this->printNumber(this->rtc->getMonth(), 8 * 4, 8);
     // this->printNumber(this->rtc->getYear(), 8 * 5, 8);
     // this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 6);
@@ -55,7 +55,7 @@ void BCDDisplay::clearDisplay()
     }
 
     CRGB dotsColor = CRGB::Yellow;
-    dotsColor.fadeLightBy(200);
+    dotsColor.fadeToBlackBy(200);
     this->leds[10] = dotsColor;
     this->leds[13] = dotsColor;
     this->leds[18] = dotsColor;
