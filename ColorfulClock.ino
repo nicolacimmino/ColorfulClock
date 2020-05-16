@@ -21,20 +21,42 @@
 #include "BCDDisplay.h"
 #include "RTC.h"
 
-BCDDisplay *display;
+#define NUM_DISPLAYS 2
+#define BUTTON_PIN 8
+
+Display *display;
 RTC rtc;
+byte activeDisplayIndex = 0;
 
 void setup()
 {
     rtc.initialize();
 
-    //display = new RomanDisplay(&rtc);
     display = new BCDDisplay(&rtc);
+
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 
 void loop()
 {
     display->loop();
 
-    delay(1000);
+    if (digitalRead(BUTTON_PIN) == LOW)
+    {
+        activeDisplayIndex = (activeDisplayIndex + 1) % NUM_DISPLAYS;
+        delete display;
+        switch (activeDisplayIndex)
+        {
+        case 0:
+            display = new BCDDisplay(&rtc);
+            break;
+        case 1:
+            display = new RomanDisplay(&rtc);
+            break;
+        }
+        while (digitalRead(BUTTON_PIN) == LOW)
+        {
+            delay(1);
+        }        
+    }
 }

@@ -1,7 +1,4 @@
 //
-//  RomanDisplay wraps the logic to drive a string of WS2812B addressable LEDs and show
-//  color coded roman numerals.
-//
 //  Copyright (C) 2020 Nicola Cimmino
 //
 //    This program is free software: you can redistribute it and/or modify
@@ -20,39 +17,16 @@
 
 #include "BCDDisplay.h"
 
-BCDDisplay::BCDDisplay(RTC *rtc)
+BCDDisplay::BCDDisplay(RTC *rtc) : Display(rtc)
 {
-    this->rtc = rtc;
-    FastLED.addLeds<WS2812B, PIN_LED_DATA, GRB>(this->leds, NUM_LEDS);
-    FastLED.setBrightness(10);
-}
 
-void BCDDisplay::setBrightness(byte brightness)
-{
-    FastLED.setBrightness(brightness);
 }
-
 void BCDDisplay::loop()
 {
     this->clearDisplay();
     this->printNumber(this->rtc->getHours(), 0);
     this->printNumber(this->rtc->getMinutes(), 1);
     this->printNumber(this->rtc->getSeconds(), 2);
-    //this->printNumber(this->rtc->getDay(), 3);
-    // this->printNumber(this->rtc->getMonth(), 8 * 4, 8);
-    // this->printNumber(this->rtc->getYear(), 8 * 5, 8);
-    // this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 6);
-    // this->printNumber(this->rtc->getTemperature(), 8 * 7, 8);
-
-    this->show();
-}
-
-void BCDDisplay::clearDisplay()
-{
-    for (int ix = 0; ix < NUM_LEDS; ix++)
-    {
-        this->leds[ix] = ROMAN_DISPLAY_BLANK;
-    }
 
     CRGB dotsColor = CRGB::Yellow;
     dotsColor.fadeToBlackBy(200);
@@ -60,11 +34,8 @@ void BCDDisplay::clearDisplay()
     this->leds[13] = dotsColor;
     this->leds[18] = dotsColor;
     this->leds[21] = dotsColor;
-}
 
-void BCDDisplay::show()
-{
-    FastLED.show();
+    this->show();
 }
 
 void BCDDisplay::printNumber(byte number, byte position)

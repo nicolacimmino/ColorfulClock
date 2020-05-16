@@ -20,16 +20,9 @@
 
 #include "RomanDisplay.h"
 
-RomanDisplay::RomanDisplay(RTC *rtc)
+RomanDisplay::RomanDisplay(RTC *rtc) : Display(rtc)
 {
-    this->rtc = rtc;
-    FastLED.addLeds<WS2812B, PIN_LED_DATA, GRB>(this->leds, NUM_LEDS);
-    FastLED.setBrightness(10);
-}
 
-void RomanDisplay::setBrightness(byte brightness)
-{
-    FastLED.setBrightness(brightness);
 }
 
 void RomanDisplay::loop()
@@ -75,19 +68,6 @@ void RomanDisplay::convertToRoman(byte number, char *result)
             }
         }
     }
-}
-
-void RomanDisplay::clearDisplay()
-{
-    for (int ix = 0; ix < NUM_LEDS; ix++)
-    {
-        this->leds[ix] = ROMAN_DISPLAY_BLANK;
-    }
-}
-
-void RomanDisplay::show()
-{
-    FastLED.show();
 }
 
 void RomanDisplay::printNumber(byte number, byte startIndex, byte sectionLength)

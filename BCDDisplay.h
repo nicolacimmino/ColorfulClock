@@ -21,30 +21,16 @@
 #ifndef ___BCD_DISPLAY_H__
 #define ___BCD_DISPLAY_H__
 
-#include <FastLED.h>
-#include "RTC.h"
+#include "Display.h"
 
-#define NUM_LEDS 64
-#define PIN_LED_DATA 5
-#define ROMAN_DISPLAY_BLANK CRGB(0, 0, 0)
-#define ROMAN_DISPLAY_I CRGB::Blue;
-#define ROMAN_DISPLAY_V CRGB::Green;
-#define ROMAN_DISPLAY_X CRGB::Red;
-#define ROMAN_DISPLAY_L CRGB::Yellow;
-
-class BCDDisplay
+class BCDDisplay : public Display
 {
 public:
     BCDDisplay(RTC *rtc);
-    void setBrightness(byte brightness);
     void loop();
 
 private:
-    CRGB leds[NUM_LEDS];
-    RTC *rtc;
     void printNumber(byte number, byte position);
-    void show();
-    void clearDisplay();
 };
 
 #endif
