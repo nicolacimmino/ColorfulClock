@@ -19,7 +19,6 @@
 
 BCDDisplay::BCDDisplay(RTC *rtc) : Display(rtc)
 {
-
 }
 
 void BCDDisplay::loop()
@@ -28,28 +27,40 @@ void BCDDisplay::loop()
     this->printNumber(this->rtc->getHours(), 0);
     this->printNumber(this->rtc->getMinutes(), 1);
     this->printNumber(this->rtc->getSeconds(), 2);
-
+    this->printNumber(this->rtc->getDay(), 3);
+    this->printNumber(this->rtc->getMonth(), 4);
+    this->printNumber(this->rtc->getYear(), 5);
+    
     CRGB dotsColor = CRGB::Yellow;
     dotsColor.fadeToBlackBy(200);
-    this->leds[10] = dotsColor;
-    this->leds[13] = dotsColor;
-    this->leds[18] = dotsColor;
-    this->leds[21] = dotsColor;
-
+    this->leds[16+10] = dotsColor;
+    this->leds[16+13] = dotsColor;
+    this->leds[16+18] = dotsColor;
+    this->leds[16+21] = dotsColor;
+    this->leds[32+58] = dotsColor;
+    this->leds[32+61] = dotsColor;
+    
     this->show();
 }
 
 void BCDDisplay::printNumber(byte number, byte position)
 {
+    byte rootPosition = (position * 3);
+    if (position > 2)
+    {
+        rootPosition = 48 + ((position - 3) * 3);
+    }
+    rootPosition +=16;
+
     byte tens = number / 10;
     for (byte ix = 0; ix < 4; ix++)
     {
-        this->leds[(position * 3) + (ix * 8)] = (tens & (1 << ix)) ? CRGB::Purple : CRGB::Black;
+        this->leds[rootPosition + (ix * 8)] = (tens & (1 << ix)) ? CRGB::Purple : CRGB::Black;
     }
 
     byte units = number % 10;
     for (byte ix = 0; ix < 4; ix++)
     {
-        this->leds[1 + (position * 3) + (ix * 8)] = (units & (1 << ix)) ? CRGB::Purple : CRGB::Black;
+        this->leds[1 + rootPosition + (ix * 8)] = (units & (1 << ix)) ? CRGB::Purple : CRGB::Black;
     }
 }

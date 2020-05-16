@@ -28,14 +28,14 @@ RomanDisplay::RomanDisplay(RTC *rtc) : Display(rtc)
 void RomanDisplay::loop()
 {
     this->clearDisplay();
-    this->printNumber(this->rtc->getHours(), 0, 8);
-    this->printNumber(this->rtc->getMinutes(), 8 * 1, 8);
-    this->printNumber(this->rtc->getSeconds(), 8 * 2, 8);
-    this->printNumber(this->rtc->getDay(), 8 * 3, 8);
-    this->printNumber(this->rtc->getMonth(), 8 * 4, 8);
-    this->printNumber(2000 + this->rtc->getYear(), 8 * 5, 8);
-    this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 6);
-    this->printNumber(this->rtc->getTemperature(), 8 * 7, 8);
+    this->printNumber(this->rtc->getHours(), 8 * 2 , 8);
+    this->printNumber(this->rtc->getMinutes(), 8 * 3, 8);
+    this->printNumber(this->rtc->getSeconds(), 8 * 4, 8);
+    this->printNumber(this->rtc->getDay(), 8 * 7, 8);
+    this->printNumber(this->rtc->getMonth(), 8 * 8, 8);
+    this->printNumber(2000 + this->rtc->getYear(), 8 * 9, 8);
+    this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 10);
+    this->printNumber(this->rtc->getTemperature(), 8 * 13, 8);
 
     this->show();
 }
