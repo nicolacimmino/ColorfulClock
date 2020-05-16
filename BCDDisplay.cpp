@@ -21,6 +21,7 @@ BCDDisplay::BCDDisplay(RTC *rtc) : Display(rtc)
 {
 
 }
+
 void BCDDisplay::loop()
 {
     this->clearDisplay();

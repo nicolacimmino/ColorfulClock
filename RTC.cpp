@@ -28,6 +28,7 @@
 void RTC::initialize()
 {
     Wire.begin();
+    //rtc.set(0, 00, 16, 6, 16, 5, 20);
 }
 
 void RTC::setTime(int v_hour, int v_minute, int v_second)
