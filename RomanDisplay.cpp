@@ -33,20 +33,21 @@ void RomanDisplay::loop()
     this->printNumber(this->rtc->getSeconds(), 8 * 2, 8);
     this->printNumber(this->rtc->getDay(), 8 * 3, 8);
     this->printNumber(this->rtc->getMonth(), 8 * 4, 8);
-    this->printNumber(this->rtc->getYear(), 8 * 5, 8);
+    this->printNumber(2000 + this->rtc->getYear(), 8 * 5, 8);
     this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 6);
     this->printNumber(this->rtc->getTemperature(), 8 * 7, 8);
 
     this->show();
 }
 
-void RomanDisplay::convertToRoman(byte number, char *result)
+void RomanDisplay::convertToRoman(unsigned int number, char *result)
 {
     struct
     {
         unsigned int value;
         const char *symbols;
     } romanDigits[] = {
+        {1000, "M"},
         {50, "L"},
         {40, "XL"},
         {10, "X"},
@@ -70,7 +71,7 @@ void RomanDisplay::convertToRoman(byte number, char *result)
     }
 }
 
-void RomanDisplay::printNumber(byte number, byte startIndex, byte sectionLength)
+void RomanDisplay::printNumber(unsigned int number, byte startIndex, byte sectionLength)
 {
     char romanNumeralBuffer[10];
     convertToRoman(number, romanNumeralBuffer);
@@ -96,6 +97,9 @@ void RomanDisplay::printNumber(byte number, byte startIndex, byte sectionLength)
             case 'L':
                 colour = ROMAN_DISPLAY_L;
                 break;
+            case 'M':
+                colour = ROMAN_DISPLAY_M;
+                break;                
             }
 
             // Due to mechanical limiations in the proto it was more handy to

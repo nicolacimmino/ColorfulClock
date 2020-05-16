@@ -28,6 +28,7 @@
 #define ROMAN_DISPLAY_V CRGB::Green;
 #define ROMAN_DISPLAY_X CRGB::Red;
 #define ROMAN_DISPLAY_L CRGB::Yellow;
+#define ROMAN_DISPLAY_M CRGB::Purple;
 
 class RomanDisplay : public Display
 {
@@ -36,8 +37,8 @@ public:
     void loop();
 
 private:
-    void convertToRoman(byte number, char *result);
-    void printNumber(byte number, byte startIndex, byte sectionLength);
+    void convertToRoman(unsigned int number, char *result);
+    void printNumber(unsigned int number, byte startIndex, byte sectionLength);
     void printPositional(byte number, byte startIndex);
 };
 
