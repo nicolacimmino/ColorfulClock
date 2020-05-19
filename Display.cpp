@@ -21,7 +21,7 @@ Display::Display(RTC *rtc)
 {
     this->rtc = rtc;
     FastLED.addLeds<WS2812, PIN_LED_DATA, GRB>(this->leds, NUM_LEDS);
-    FastLED.setBrightness(10);
+    FastLED.setBrightness(127);
 }
 
 void Display::setBrightness(byte brightness)

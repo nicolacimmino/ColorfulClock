@@ -55,12 +55,12 @@ void BCDDisplay::printNumber(byte number, byte position)
     byte tens = number / 10;
     for (byte ix = 0; ix < 4; ix++)
     {
-        this->leds[rootPosition + (ix * 8)] = (tens & (1 << ix)) ? CRGB::Purple : CRGB::Black;
+        this->leds[rootPosition + (ix * 8)] = (tens & (1 << ix)) ? CRGB::Purple : CRGB(5,5,5);
     }
 
     byte units = number % 10;
     for (byte ix = 0; ix < 4; ix++)
     {
-        this->leds[1 + rootPosition + (ix * 8)] = (units & (1 << ix)) ? CRGB::Purple : CRGB::Black;
+        this->leds[1 + rootPosition + (ix * 8)] = (units & (1 << ix)) ? CRGB::Purple : CRGB(5,5,5);
     }
 }
