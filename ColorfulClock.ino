@@ -30,6 +30,7 @@ RTC *rtc;
 ToFSensor *tofSensor;
 
 byte activeDisplayIndex = 0;
+bool displayDimmed = false;
 
 void setup()
 {
@@ -39,12 +40,10 @@ void setup()
     rtc->initialize();
 
     display = new BCDDisplay(rtc);
-    tofSensor = new ToFSensor(change);
+    tofSensor = new ToFSensor(onAction);
 }
 
-unsigned int averageDistance = 0;
-
-void change(uint8_t action)
+void changeClock()
 {
     activeDisplayIndex = (activeDisplayIndex + 1) % NUM_DISPLAYS;
     delete display;
@@ -59,8 +58,27 @@ void change(uint8_t action)
     }
 }
 
+void toggleDim()
+{
+    displayDimmed = !displayDimmed;
+}
+
+void onAction(uint8_t action)
+{
+    switch (action)
+    {
+    case 1:
+        changeClock();
+        break;
+    case 2:
+        toggleDim();
+        break;
+    }
+}
+
 void loop()
 {
+    display->setBrightness(displayDimmed ? 50 : 127);
     display->loop();
     tofSensor->loop();
 }
