@@ -17,6 +17,7 @@ void ToFSensor::calibrate()
     {
         uint16_t distanceMilliMeters = this->sensor->readRangeSingleMillimeters();
         this->averageDistance = (this->averageDistance * 0.9) + (distanceMilliMeters * 0.1);
+        delay(100);
     }
 }
 
@@ -40,7 +41,6 @@ void ToFSensor::loop()
 
     if (this->beamCuts && millis() - lastBeamCutTime > GESTURE_TIMEOUT_MS)
     {
-        //Serial.println(this->beamCuts);
         this->actionCallback(this->beamCuts);
         this->beamCuts = 0;
     }

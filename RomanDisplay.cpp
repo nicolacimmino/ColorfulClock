@@ -22,19 +22,18 @@
 
 RomanDisplay::RomanDisplay(RTC *rtc) : Display(rtc)
 {
-
 }
 
 void RomanDisplay::loop()
 {
     this->clearDisplay();
-    this->printNumber(this->rtc->getHours(), 8 * 2 , 8);
+    this->printNumber(this->rtc->getHours(), 8 * 2, 8);
     this->printNumber(this->rtc->getMinutes(), 8 * 3, 8);
     this->printNumber(this->rtc->getSeconds(), 8 * 4, 8);
     this->printNumber(this->rtc->getDay(), 8 * 7, 8);
     this->printNumber(this->rtc->getMonth(), 8 * 8, 8);
     this->printNumber(2000 + this->rtc->getYear(), 8 * 9, 8);
-    this->printPositional(this->rtc->getDayOfWeek() - 1, 8 * 10);
+    this->printPositional(this->rtc->getDayOfWeek() - 1, 7, 8 * 10);
     this->printNumber(this->rtc->getTemperature(), 8 * 13, 8);
 
     this->show();
@@ -99,7 +98,7 @@ void RomanDisplay::printNumber(unsigned int number, byte startIndex, byte sectio
                 break;
             case 'M':
                 colour = ROMAN_DISPLAY_M;
-                break;                
+                break;
             }
 
             // Due to mechanical limiations in the proto it was more handy to
@@ -112,7 +111,11 @@ void RomanDisplay::printNumber(unsigned int number, byte startIndex, byte sectio
     }
 }
 
-void RomanDisplay::printPositional(byte number, byte startIndex)
+void RomanDisplay::printPositional(byte number, byte totalPositions, byte startIndex)
 {
+    for (byte ix = 0; ix < totalPositions; ix++)
+    {
+        this->leds[startIndex + ix] = CRGB(4,4,4);
+    }
     this->leds[startIndex + number] = CRGB::Violet;
 }

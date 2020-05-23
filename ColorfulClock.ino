@@ -17,13 +17,14 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
+#include "Display.h"
 #include "RomanDisplay.h"
 #include "BCDDisplay.h"
+#include "StandardDisplay.h"
 #include "RTC.h"
 #include "ToFSensor.h"
-#include "Display.h"
 
-#define NUM_DISPLAYS 2
+#define NUM_DISPLAYS 3
 
 Display *display;
 RTC *rtc;
@@ -55,6 +56,9 @@ void changeClock()
     case 1:
         display = new RomanDisplay(rtc);
         break;
+    case 2:
+        display = new StandardDisplay(rtc);
+        break;
     }
 }
 
@@ -78,7 +82,7 @@ void onAction(uint8_t action)
 
 void loop()
 {
-    display->setBrightness(displayDimmed ? 50 : 127);
+    display->setBrightness(displayDimmed ? 50 : 100);
     display->loop();
     tofSensor->loop();
 }

@@ -18,28 +18,40 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#ifndef __ROMAN_DISPLAY_H__
-#define __ROMAN_DISPLAY_H__
+#ifndef ___STANDARD_DISPLAY_H__
+#define ___STANDARD_DISPLAY_H__
 
 #include "Display.h"
 
-#define ROMAN_DISPLAY_BLANK CRGB(0, 0, 0)
-#define ROMAN_DISPLAY_I CRGB::Blue;
-#define ROMAN_DISPLAY_V CRGB::Green;
-#define ROMAN_DISPLAY_X CRGB::Red;
-#define ROMAN_DISPLAY_L CRGB::Yellow;
-#define ROMAN_DISPLAY_M CRGB::Purple;
-
-class RomanDisplay : public Display
+class StandardDisplay : public Display
 {
 public:
-    RomanDisplay(RTC *rtc);
+    StandardDisplay(RTC *rtc);
     void loop();
 
 private:
-    void convertToRoman(unsigned int number, char *result);
-    void printNumber(unsigned int number, byte startIndex, byte sectionLength);
-    void printPositional(byte number, byte totalPositions, byte startIndex);
+    void printNumber(byte number, byte position);
+
+    uint8_t digits3x5[10][5] = {
+        {7, 5, 5, 5, 7},
+        {1, 1, 1, 1, 1},
+        {7, 1, 7, 4, 7},
+        {7, 1, 7, 1, 7},
+        {5, 5, 7, 1, 1},
+        {7, 4, 7, 1, 7},
+        {7, 4, 7, 5, 7},
+        {7, 1, 1, 1, 1},
+        {7, 5, 7, 5, 7},
+        {7, 5, 7, 1, 7}};
+
+ CRGB segmentsColors[3][2] = {
+        {CRGB::DarkRed, CRGB(4, 0, 0)},
+        {CRGB::Yellow, CRGB(4, 4, 0)},
+        {CRGB::DarkGreen, CRGB(0, 4, 0)}};
+    // CRGB segmentsColors[3][2] = {
+    //     {CRGB::DarkRed, CRGB(4, 0, 0)},
+    //     {CRGB::DarkGreen, CRGB(0, 4, 0)},
+    //     {CRGB::Yellow, CRGB(4, 4, 0)}};
 };
 
 #endif
