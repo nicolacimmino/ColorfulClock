@@ -12,7 +12,8 @@ class ToFSensor
 public:
     ToFSensor(void (*actionCallback)(uint8_t action));
     void loop();
-
+    bool isActive();
+    
 private:
     VL53L0X *sensor;
     uint16_t averageDistance;

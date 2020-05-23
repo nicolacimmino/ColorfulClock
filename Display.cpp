@@ -36,6 +36,10 @@ void Display::clearDisplay()
     {
         this->leds[ix] = DISPLAY_BLANK;
     }
+
+    if(this->activityIndicator) {
+        this->leds[NUM_LEDS - 1] = CRGB::Red;
+    }
 }
 
 void Display::show()

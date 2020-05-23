@@ -82,7 +82,8 @@ void onAction(uint8_t action)
 
 void loop()
 {
+    tofSensor->loop();
+    display->activityIndicator = tofSensor->isActive();
     display->setBrightness(displayDimmed ? 50 : 100);
     display->loop();
-    tofSensor->loop();
 }

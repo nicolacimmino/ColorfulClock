@@ -31,6 +31,7 @@ public:
     Display(RTC *rtc);
     void setBrightness(byte brightness);
     virtual void loop() = 0;
+    bool activityIndicator = false;
 
 protected:
     void clearDisplay();

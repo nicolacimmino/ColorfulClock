@@ -35,6 +35,7 @@ void ToFSensor::loop()
         {
             this->lastBeamCutTime = millis();
             this->beamCuts++;
+            delay(100);
         }
 
         this->beamCut = beamCurrentlyCut;
@@ -45,4 +46,9 @@ void ToFSensor::loop()
         this->actionCallback(this->beamCuts);
         this->beamCuts = 0;
     }
+}
+
+bool ToFSensor::isActive()
+{
+    return this->beamCut;
 }
