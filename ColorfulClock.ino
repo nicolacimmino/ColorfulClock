@@ -1,4 +1,3 @@
-
 //
 //  A colorful clock based on an 8x8 addressable LEDs panel.
 //
@@ -21,45 +20,47 @@
 #include "RomanDisplay.h"
 #include "BCDDisplay.h"
 #include "RTC.h"
-//#include <VL53L0X.h>
+#include "ToFSensor.h"
+#include "Display.h"
 
 #define NUM_DISPLAYS 2
-#define BUTTON_PIN 8
 
 Display *display;
-RTC rtc;
+RTC *rtc;
+ToFSensor *tofSensor;
+
 byte activeDisplayIndex = 0;
 
 void setup()
 {
-    rtc.initialize();
+    Serial.begin(115200);
+    rtc = new RTC();
 
-    display = new BCDDisplay(&rtc);
+    rtc->initialize();
 
-    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    display = new BCDDisplay(rtc);
+    tofSensor = new ToFSensor(change);
+}
+
+unsigned int averageDistance = 0;
+
+void change(uint8_t action)
+{
+    activeDisplayIndex = (activeDisplayIndex + 1) % NUM_DISPLAYS;
+    delete display;
+    switch (activeDisplayIndex)
+    {
+    case 0:
+        display = new BCDDisplay(rtc);
+        break;
+    case 1:
+        display = new RomanDisplay(rtc);
+        break;
+    }
 }
 
 void loop()
 {
     display->loop();
-
-    if (digitalRead(BUTTON_PIN) == LOW)
-    {
-        activeDisplayIndex = (activeDisplayIndex + 1) % NUM_DISPLAYS;
-        delete display;
-        switch (activeDisplayIndex)
-        {
-        case 0:
-            display = new BCDDisplay(&rtc);
-            break;
-        case 1:
-            display = new RomanDisplay(&rtc);
-            break;
-        }
-        while (digitalRead(BUTTON_PIN) == LOW)
-        {
-            delay(1);
-        }
-    }
-
+    tofSensor->loop();
 }

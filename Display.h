@@ -22,7 +22,7 @@
 #include "RTC.h"
 
 #define NUM_LEDS 128
-#define PIN_LED_DATA 5
+#define PIN_LED_DATA 4
 #define DISPLAY_BLANK CRGB::Black
 
 class Display
