@@ -29,6 +29,7 @@
 #define ROMAN_DISPLAY_X CRGB::Red;
 #define ROMAN_DISPLAY_L CRGB::Yellow;
 #define ROMAN_DISPLAY_M CRGB::Purple;
+#define TEMPERATURE_OFFSET 6
 
 class RomanDisplay : public Display
 {

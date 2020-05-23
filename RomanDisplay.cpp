@@ -34,7 +34,7 @@ void RomanDisplay::loop()
     this->printNumber(this->rtc->getMonth(), 8 * 8, 8);
     this->printNumber(2000 + this->rtc->getYear(), 8 * 9, 8);
     this->printPositional(this->rtc->getDayOfWeek() - 1, 7, 8 * 10);
-    this->printNumber(this->rtc->getTemperature(), 8 * 13, 8);
+    this->printNumber(this->rtc->getTemperature() - TEMPERATURE_OFFSET, 8 * 13, 8);
 
     this->show();
 }
