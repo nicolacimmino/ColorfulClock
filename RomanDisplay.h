@@ -40,7 +40,7 @@ public:
 private:
     void convertToRoman(unsigned int number, char *result);
     void printNumber(unsigned int number, byte startIndex, byte sectionLength);
-    void printPositional(byte number, byte totalPositions, byte startIndex);
+    void printDOoW(byte number, byte startIndex);
 };
 
 #endif

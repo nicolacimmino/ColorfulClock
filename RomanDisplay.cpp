@@ -33,7 +33,7 @@ void RomanDisplay::loop()
     this->printNumber(this->rtc->getDay(), 8 * 7, 8);
     this->printNumber(this->rtc->getMonth(), 8 * 8, 8);
     this->printNumber(2000 + this->rtc->getYear(), 8 * 9, 8);
-    this->printPositional(this->rtc->getDayOfWeek() - 1, 7, 8 * 10);
+    this->printDOoW(this->rtc->getDayOfWeek() - 1, 8 * 10);
     this->printNumber(this->rtc->getTemperature() - TEMPERATURE_OFFSET, 8 * 13, 8);
 
     this->show();
@@ -111,11 +111,11 @@ void RomanDisplay::printNumber(unsigned int number, byte startIndex, byte sectio
     }
 }
 
-void RomanDisplay::printPositional(byte number, byte totalPositions, byte startIndex)
+void RomanDisplay::printDOoW(byte number, byte startIndex)
 {
-    for (byte ix = 0; ix < totalPositions; ix++)
+    for (byte ix = 0; ix < 7; ix++)
     {
-        this->leds[startIndex + ix] = CRGB(4,4,4);
+        this->leds[startIndex + ix] = ix < 5 ? CRGB(4,4,4) : CRGB(16,4,4);
     }
-    this->leds[startIndex + number] = CRGB::Violet;
+    this->leds[startIndex + number] = number < 5 ? CRGB::Violet : CRGB(160,30,30);
 }
