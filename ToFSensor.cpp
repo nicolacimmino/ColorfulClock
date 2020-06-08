@@ -27,7 +27,7 @@ void ToFSensor::loop()
     if (!this->sensor->timeoutOccurred())
     {
         uint16_t distanceMilliMeters = this->sensor->readRangeContinuousMillimeters();
-        this->averageDistance = (this->averageDistance * 0.9) + (distanceMilliMeters * 0.1);
+        this->averageDistance = max(1, (this->averageDistance * 0.9) + (distanceMilliMeters * 0.1));
 
         bool beamCurrentlyCut = distanceMilliMeters < (this->averageDistance * 0.8);
 
